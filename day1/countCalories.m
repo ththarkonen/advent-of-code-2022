@@ -9,8 +9,8 @@ calories_ii = 0;
 
 line_in = fgetl( fileID );
 
-emptyLine = isempty( line_in );
 notEOF = sum( line_in ~= -1 );
+emptyLine = isempty( line_in );
 
 while( notEOF | emptyLine )
 
@@ -25,8 +25,8 @@ while( notEOF | emptyLine )
 
     line_in = fgetl( fileID );
 
-    emptyLine = isempty( line_in );
     notEOF = sum( line_in ~= -1 );
+    emptyLine = isempty( line_in );
 end
 
 caloriesTotal = sort( caloriesTotal, 'descend');
