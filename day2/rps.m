@@ -2,7 +2,7 @@
 clear
 close all
 
-data = importdata("input.txt")
+data = importdata("input.txt");
 data = split( data, ' ');
 
 nGames = size( data, 1);
