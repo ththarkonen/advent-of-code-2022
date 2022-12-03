@@ -4,16 +4,14 @@ close all
 
 data = importdata("input.txt");
 nPacks = length( data );
-
 nPacksPerGroup = 3;
-nGroups = nPacks / nPacksPerGroup;
 
 numericData = cellfun( @double, data, 'UniformOutput', false);
 prioritiesData = cellfun( @formatPriority, numericData, 'UniformOutput', false);
 groupData = formatGroupData( prioritiesData, nPacksPerGroup);
-badgeData = cellfun( @getBadge, groupData);
 
 commonPriorityPerPack = cellfun( @getPriority, prioritiesData);
+badgeData = cellfun( @getBadge, groupData);
 
 totalCommonPriorities = sum( commonPriorityPerPack )
 totalBadgePriorities = sum( badgeData )
@@ -54,12 +52,15 @@ function [groupData] = formatGroupData( priorities, nPacksPerGroup)
     groupData = cell( nGroups, 1);
 
     counter = 1;
-    for ii = 1:3:nPacks
+    for ii = 1:nPacksPerGroup:nPacks
         
         group_ii = cell( nPacksPerGroup, 1);
-        group_ii{1} = priorities{ii};
-        group_ii{2} = priorities{ii + 1};
-        group_ii{3} = priorities{ii + 2};
+
+        for jj = 1:nPacksPerGroup
+            
+            shift_jj = jj - 1;
+            group_ii{jj} = priorities{ii + shift_jj};
+        end
 
         groupData{counter} = group_ii;
         counter = counter + 1;
