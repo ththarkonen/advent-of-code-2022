@@ -21,8 +21,8 @@ for ii = 1:nMoves
     from_ii = from(ii);
     to_ii = to(ii);
 
-    stacks9000 = move9000( stacks9000, n_ii, from_ii, to_ii);
-    stacks9001 = move9001( stacks9001, n_ii, from_ii, to_ii);
+    stacks9000 = move( stacks9000, n_ii, from_ii, to_ii, 9000);
+    stacks9001 = move( stacks9001, n_ii, from_ii, to_ii, 9001);
 end
 
 printTopItems( stacks9000 )
@@ -67,27 +67,16 @@ function [stackData] = formatStackData( stacks, nStacks)
     end
 end
 
-function [stacks] = move9000( stacks, n, from, to)
+function [stacks] = move( stacks, n, from, to, model)
 
     startStack = stacks{ from };
     targetStack = stacks{ to };
 
     movedItems = startStack(1:n);
-    movedItems = flipud( movedItems );
 
-    startStack(1:n) = [];
-    targetStack = vertcat( movedItems, targetStack);
-
-    stacks{ from } = startStack;
-    stacks{ to } = targetStack;
-end
-
-function [stacks] = move9001( stacks, n, from, to)
-
-    startStack = stacks{ from };
-    targetStack = stacks{ to };
-
-    movedItems = startStack(1:n);
+    if( model == 9000 )
+        movedItems = flipud( movedItems );
+    end
 
     startStack(1:n) = [];
     targetStack = vertcat( movedItems, targetStack);
