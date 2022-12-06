@@ -12,11 +12,11 @@ nKernels = length( kernelLengths );
 
 for ii = 1:nKernels
     
-    kernelLength = kernelLengths(ii);
+    kernelLength_ii = kernelLengths(ii);
 
-    for jj = kernelLength:nData
+    for jj = kernelLength_ii:nData
         
-        startIndex = jj - (kernelLength - 1);
+        startIndex = jj - (kernelLength_ii - 1);
         stopIndex = jj;
         inds = startIndex:stopIndex;
     
@@ -24,7 +24,7 @@ for ii = 1:nKernels
         uniques = unique( subset );
         nUniques = length( uniques );
     
-        if( nUniques == kernelLength )
+        if( nUniques == kernelLength_ii )
             jj
             break;
         end
