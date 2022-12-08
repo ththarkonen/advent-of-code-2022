@@ -17,9 +17,6 @@ visibleTrees(:,end) = 1;
 visibleTrees(1,:) = 1;
 visibleTrees(end,:) = 1;
 
-rowInds = 1:n;
-colInds = 1:m;
-
 for ii = 2:(n - 1)
     for jj = 2:(m - 1)
         
