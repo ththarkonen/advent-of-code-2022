@@ -61,8 +61,8 @@ function [p] = moveKnot( p, pHead)
     headTailDistance = abs( headKnotDirection );
     isClose = max( headTailDistance ) <= 1;
 
-    headKnotDirection( headKnotDirection == 2) = 1;
-    headKnotDirection( headKnotDirection == -2) = -1;
+    headKnotDirection( headKnotDirection == 2 ) = 1;
+    headKnotDirection( headKnotDirection == -2 ) = -1;
 
     if( ~isClose )
         p = p + headKnotDirection;
