@@ -10,7 +10,6 @@ nMonkeys = length( monkeys );
 nMoves = 10000;
 
 for ii = 1:nMoves
-    
     for jj = 1:nMonkeys
         
         monkey_jj = monkeys{jj};
