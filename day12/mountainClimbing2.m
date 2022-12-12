@@ -18,9 +18,9 @@ visited = destPosition;
 paths = destPosition;
 
 pathLength = 0;
-atStart = false;
+atLowestPoint = false;
 
-while( ~atStart )
+while( ~atLowestPoint )
     
     cla
     hold on
@@ -35,19 +35,18 @@ while( ~atStart )
         neighbourInds = getNeighbours( p_ii, n, m);
         [ validPaths, visited] = getValidPaths( p_ii, neighbourInds, data, visited);
 
-        includesStartInds = ismember( neighbourInds, startPosition);
-        includesStart = any( includesStartInds );
-
         pathsNext = [ pathsNext; validPaths];
-
-        if( includesStart )
-            
-            pathsNext = pathsNext( includesStartInds ); 
-            atStart = true;
-            break;
-        end 
     end
-    
+
+    elevations = data( pathsNext );
+    includesLowestInds = ismember( elevations, 0);
+    includesLowest = any( includesLowestInds );
+
+    if( includesLowest )
+        atLowestPoint = true;
+        pathsNext = pathsNext( includesLowestInds ); 
+    end
+     
     [ ii, jj] = ind2sub( [n,m], pathsNext);
 
     h = imagesc( data );
@@ -56,7 +55,7 @@ while( ~atStart )
     h.MarkerSize = 20;
     h.Color = "black";
     
-    if( includesStart )
+    if( includesLowest )
         h.Color = "red";
         h.MarkerSize = 25;
     end
