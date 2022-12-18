@@ -36,7 +36,7 @@ for ii = 1:nCubes
 
     emptyPoints_ii = neighbours_ii( ~inds_ii, :);
     nEmpties = size( emptyPoints_ii, 1);
-
+    
     nInteriors_ii = 0;
 
     for jj = 1:nEmpties
@@ -49,7 +49,7 @@ for ii = 1:nCubes
         end
     end
 
-    nSidesPart1_ii = maxNeighbours - sum( inds_ii );
+    nSidesPart1_ii = nEmpties;
     nSidesPart2_ii = nSidesPart1_ii - nInteriors_ii;
 
     nSidesPart1 = nSidesPart1 + nSidesPart1_ii;
