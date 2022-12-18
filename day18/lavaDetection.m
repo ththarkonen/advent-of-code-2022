@@ -35,11 +35,11 @@ for ii = 1:nCubes
     inds_ii = ismember( neighbours_ii, cubes, "rows");
 
     emptyPoints_ii = neighbours_ii( ~inds_ii, :);
-    nEmpties = size( emptyPoints_ii, 1);
-    
+    nEmpties_ii = size( emptyPoints_ii, 1);
+
     nInteriors_ii = 0;
 
-    for jj = 1:nEmpties
+    for jj = 1:nEmpties_ii
         
         ne_ii_jj = emptyPoints_ii( jj, :);
         [ interiorPoint, stops, intStops] = checkInteriorPoint( ne_ii_jj, stops, intStops, kernel, cubes);
@@ -49,7 +49,7 @@ for ii = 1:nCubes
         end
     end
 
-    nSidesPart1_ii = nEmpties;
+    nSidesPart1_ii = nEmpties_ii;
     nSidesPart2_ii = nSidesPart1_ii - nInteriors_ii;
 
     nSidesPart1 = nSidesPart1 + nSidesPart1_ii;
