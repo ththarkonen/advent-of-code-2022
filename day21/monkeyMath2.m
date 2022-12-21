@@ -37,7 +37,10 @@ function [residual] = monkeyResidual( humanValue, initialMonkeys)
     yellerFirst = yellers(1);
     yellerSecond = yellers(2);
 
-    residual = abs( monkeys.( yellerFirst ).value - monkeys.( yellerSecond ).value )
+    valueFirst = monkeys.( yellerFirst ).value;
+    valueSecond = monkeys.( yellerSecond ).value;
+
+    residual = abs( valueFirst - valueSecond )
 end
 
 
