@@ -3,16 +3,19 @@ clc
 clear
 close all
 
-data = readlines("input.txt")
+data = readlines("input.txt");
 
-monkeys = createMonkeys( data )
-
+monkeys = createMonkeys( data );
 iterate = true;
 
 while( iterate )
     
    [ monkeys, iterate] = iterateMonkeys( monkeys );
 end
+
+format long g
+monkeys.root.value
+format default
 
 
 function [ monkeys, iterate] = iterateMonkeys( monkeys )
@@ -32,11 +35,11 @@ function [ monkeys, iterate] = iterateMonkeys( monkeys )
         end
         
         yellers = monkey_ii.yellers;
-        yeller1 = yellers(1);
-        yeller2 = yellers(2);
+        yellerName1 = yellers(1);
+        yellerName2 = yellers(2);
         
-        yellerFirst = monkeys.( yeller1 );
-        yellerSecond = monkeys.( yeller2 );
+        yellerFirst = monkeys.( yellerName1 );
+        yellerSecond = monkeys.( yellerName2 );
         
         if( yellerFirst.ready && yellerSecond.ready )
             

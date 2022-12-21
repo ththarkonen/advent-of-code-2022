@@ -4,66 +4,42 @@ clear
 close all
 
 data = readlines("input.txt");
-monkeysInit = createMonkeys( data );
+initialMonkeys = createMonkeys( data );
 
-% for ii 
 tic
-counter = 3.3276e+12;
-valid = false;
+res = 1;
+while( res ~= 0 )
 
-while( ~valid )
-    
-    monkeys = monkeysInit;
-    monkeys.humn.value = counter;
-
-    iterate = true;
-    
-    while( iterate )
-
-       [ monkeys, iterate, valid] = iterateMonkeys( monkeys );
-
-        if( valid )
-            valid
-            disp("Found human value.");
-            break;
-        end
-    end
-    
-    counter = counter + 1;
-    
-    format long g
-    monkeys.( monkeys.root.yellers(1) )
-    monkeys.( monkeys.root.yellers(2) )
-    format default
-%     
+    x0 = 10000 + randi(1e15);
+    [ hvOptimal, res] = fminsearch( @(humanValue) monkeyResidual( humanValue, initialMonkeys), x0);
+    humanValueOptimal = round( hvOptimal );
 end
 toc
 
-%%
+format long g
+res
+humanValueOptimal
+format default
 
-[humanValueMin, res] = fminsearch( @(humanValue) computeResidual( humanValue, monkeysInit), 3.3276e+14)
-
-
-function [residual] = computeResidual( humanValue, initialMonkeys)
+function [residual] = monkeyResidual( humanValue, initialMonkeys)
     
     monkeys = initialMonkeys;
-    monkeys.humn.value = humanValue;
+    monkeys.humn.value = round( humanValue );
 
     iterate = true;
     
     while( iterate )
 
-       [ monkeys, iterate, valid] = iterateMonkeys( monkeys );
+       [ monkeys, iterate] = iterateMonkeys( monkeys );
     end
     
-    residual = abs( 21830569590923 - monkeys.mrnz.value )
+    residual = abs( monkeys.jwrp.value - monkeys.mrnz.value )
 end
 
 
-function [ monkeys, iterate, valid] = iterateMonkeys( monkeys )
+function [ monkeys, iterate] = iterateMonkeys( monkeys )
 
     iterate = false;
-    valid = false;
     
     names = fieldnames( monkeys );
     nMonkeys = length( names );
@@ -89,21 +65,14 @@ function [ monkeys, iterate, valid] = iterateMonkeys( monkeys )
             op_ii = monkey_ii.operator;
             a = yellerFirst.value;
             b = yellerSecond.value;
-            
-            [ value_ii, equal] = doAction( op_ii, a, b);
-            
-            monkey_ii.value = value_ii;
-            monkey_ii.ready = true;
-            
-            if( equal == 0 )
+
+            if( op_ii == "=" )
                 iterate = false;
-                valid = false;
-                break;
-            elseif( equal == 1 )
-                iterate = false;
-                valid = true;
                 break;
             end
+            
+            monkey_ii.value = doAction( op_ii, a, b);
+            monkey_ii.ready = true;
             
             monkeys.( name_ii ) = monkey_ii;
             iterate = true;
@@ -112,9 +81,8 @@ function [ monkeys, iterate, valid] = iterateMonkeys( monkeys )
     end
 end
 
-function [value, equal] = doAction( operator, a, b)
+function [value] = doAction( operator, a, b)
 
-    equal = -1;
     switch operator
         case "+"
             value = a + b;
@@ -124,9 +92,6 @@ function [value, equal] = doAction( operator, a, b)
             value = a * b;
         case "/"
             value = a / b;
-        case "="
-            value = 0;
-            equal = a == b;
     end
 end
 
