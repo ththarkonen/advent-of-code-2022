@@ -33,7 +33,11 @@ function [residual] = monkeyResidual( humanValue, initialMonkeys)
        [ monkeys, iterate] = iterateMonkeys( monkeys );
     end
     
-    residual = abs( monkeys.jwrp.value - monkeys.mrnz.value )
+    yellers = monkeys.root.yellers;
+    yellerFirst = yellers(1);
+    yellerSecond = yellers(2);
+
+    residual = abs( monkeys.( yellerFirst ).value - monkeys.( yellerSecond ).value )
 end
 
 
