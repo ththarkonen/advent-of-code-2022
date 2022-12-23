@@ -4,23 +4,29 @@ clear
 close all
 
 data = readlines("input.txt");
-[ map, moves, rotations] = constructMap( data );
-character = makeCharacter( map, 1)
 
+[ map, moves, rotations] = constructMap( data );
 nMoves = length( moves );
 
-imagesc( map )
-hold on
-h = plot( character.position(2), character.position(1), '.');
-h.MarkerSize = 30;
-h.Color = "red";
-axis equal
-axis tight
-drawnow();
-
-
+character = makeCharacter( map, 1);
 p = character.position;
 paths = {p};
+
+animate = true;
+saveGif = false;
+gifFileName = "monkey-map.gif";
+
+if( animate )
+
+    inputObject = {};
+    inputObject.map = map;
+    inputObject.character = character;
+    inputObject.paths = paths;
+    inputObject.faces = [];
+    inputObject.faceSize = 0;
+
+    addFrameGIF( inputObject, true, gifFileName, saveGif)
+end
 
 for ii = 1:nMoves
     
@@ -38,6 +44,18 @@ for ii = 1:nMoves
             paths{ end + 1 } = p;
             p = [character.position];
         end
+
+        if( animate )
+        
+            inputObject = {};
+            inputObject.map = map;
+            inputObject.character = character;
+            inputObject.paths = paths;
+            inputObject.faces = [];
+            inputObject.faceSize = 0;
+        
+            addFrameGIF( inputObject, false, gifFileName, saveGif)
+        end
         
         if( isWall )
             break;
@@ -45,29 +63,6 @@ for ii = 1:nMoves
     end
     
     character = rotate( character, rotation_ii);
-    
-    cla reset
-    
-    imagesc( map )
-    hold on
-    h = plot( character.position(2), character.position(1), '.');
-    h.MarkerSize = 30;
-
-    for kk = 1:length(paths)
-
-        p_kk = paths{kk};
-
-        h2 = plot( p_kk(2,:), p_kk(1,:));
-        h2.Color = "red";
-        h2.LineWidth = 2;
-    end
-
-    h.Color = "red";
-    axis equal
-    axis tight
-
-    drawnow();
-    
 end
 
 rowInd = character.position(1);
@@ -185,11 +180,11 @@ end
 
 function [character] = makeCharacter( map, rowIndex)
 
-    row = map( rowIndex, :)
+    row = map( rowIndex, :);
     startJJ = find( row == 1, 1);
 
     character = {};
-    character.position = [1; startJJ]
+    character.position = [1; startJJ];
     character.direction = [0; 1];
 end
 
